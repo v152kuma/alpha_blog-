@@ -53,6 +53,17 @@ render 'edit'
 end
 
 end
+def destroy
+
+@article = Article.find(params[:id])
+
+@article.destroy
+
+flash[:notice] = "Article was successfully deleted"
+
+redirect_to articles_path
+
+end
 private
 def article_params
 
