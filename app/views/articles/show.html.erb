@@ -42,7 +42,7 @@
 
 <div class="article-actions">
 
-<% if logged_in? && current_user == @article.user %>
+<% if logged_in? && (current_user == @article.user || current_user.admin?) %>
 
 <%= link_to "Edit this article", edit_article_path(@article), class: "btn btn-xs btn-primary" %>
 
@@ -59,11 +59,3 @@ class: "btn btn-xs btn-danger" %>
 </div>
 
 </div>
-
-Update the home action in the pages_controller.rb file to look like below:
-
-def home
-
-redirect_to articles_path if logged_in?
-
-end
