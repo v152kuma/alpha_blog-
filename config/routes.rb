@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       delete 'logout', to: 'sessions#destroy'
 
 
+      resources :categories, except: [:destroy]
+      
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 
