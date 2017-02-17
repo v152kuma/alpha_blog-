@@ -1,8 +1,17 @@
 require 'test_helper'
 
 class CreateCategoriesTest < ActionDispatch::IntegrationTest
+    
+def setup
+
+@user = User.create(username: "v152kuma", email: "vivek.kumar450028@gmail.com", password: "boot@123", admin: true)
+
+end
+
 
 test "get new category form and create category" do
+
+sign_in_as(@user, "boot@123")
 
 get new_category_path
 
@@ -22,6 +31,8 @@ end
 
 test "invalid category submission results in failure" do
 
+sign_in_as(@user, "boot@123")
+
 get new_category_path
 
 assert_template 'categories/new'
@@ -39,5 +50,5 @@ assert_select 'h2.panel-title'
 assert_select 'div.panel-body'
 
 end
-
+        
 end
