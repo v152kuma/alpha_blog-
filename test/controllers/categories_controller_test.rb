@@ -1,46 +1,52 @@
-class CategoriesController < ApplicationController
+require 'test_helper'
 
-def index
+class CategoriesControllerTest < ActionController::TestCase
 
+def setup
 
-@categories = Category.paginate(page: params[:page], per_page: 5)
+@category = Category.create(name: "Bio-Chemistry")
 
+@user = User.create(username: "v152kuma", email: "vivek.kumar450028@gmail", password: "boot@123", admin: true)
+
+end
+test "should get categories index" do
+
+get :index
+
+assert_response :success
 
 end
 
-def new
 
-@category = Category.new
 
-end
 
-def create
 
-@category = Category.new(category_params)
+test "should get new" do
 
-if @category.save
+session[:user_id] = @user.id
 
-flash[:success] = "Category was created successfully"
+get :new
 
-redirect_to categories_path
-
-else
-
-render 'new'
+assert_response :success
 
 end
 
+test "should get show" do
+
+get(:show, {'id' => @category.id})
+assert_response :success
+
 end
 
-def show
+test "should redirect create when admin not logged in" do
+
+assert_no_difference 'Category.count' do
+
+post :create, category: { name: "Bio-Chemistry" }
 
 end
 
-private
-
-def category_params
-
-params.require(:category).permit(:name)
+assert_redirected_to categories_path
 
 end
 
